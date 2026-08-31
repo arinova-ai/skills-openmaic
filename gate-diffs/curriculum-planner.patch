@@ -1,0 +1,204 @@
+--- upstream/skills/agent-runtime/curriculum-planner/SKILL.md
++++ companion/skills/curriculum-planner/SKILL.md
+@@ -1,34 +1,28 @@
+ ---
+ name: curriculum-planner
+ title: "系列课规划"
+-description: Multi-stage series — a request for several classrooms that belong together, like 「7 天学 Python」, a four-week onboarding track, a semester unit split across lessons, or "turn this book into a lesson per chapter". Clarifies the series brief, gets the user's explicit sign-off on the full lesson list before spending anything, then builds the stages one at a time into a shared folder. Use when the ask is a sequence of classrooms; not for a single stage, however large.
++description: Multi-lesson series planning for requests such as 「7 天学 Python」, a four-week onboarding track, a semester unit, or "turn this book into a lesson per chapter". Clarifies the brief, gets explicit sign-off on the full lesson list, then develops the lessons one at a time while preserving progression. Use for a sequence of lessons, not a single lesson however large.
+ ---
+ 
+-# Planning and building a stage series
++# Planning and building a lesson series
+ 
+-A series is many stages — many classrooms — that a learner takes in order. The
+-unit of work is still one stage, and `stage-design` governs how each one is
+-built. Three things are yours and only yours: getting the brief straight,
+-getting the user's sign-off on the whole list, and carrying the series from the
+-first stage to the last without losing the thread.
++A series is a sequence of lessons that a learner takes in order. Three things
++matter most: getting the brief straight, getting the user's sign-off on the
++whole list, and carrying the series from the first lesson to the last without
++losing the thread.
+ 
+-Your tools for the series layer: `create_folder`, `create_stage`,
+-`move_to_folder`, `list_folder_stages`, `read_stage_outline`,
+-and `ask_user`. Everything else — planning in conversation, `set_roster`,
+-`generate_scene`, `list_scenes`, `read_stage`, `patch_stage`, `grep_stage`,
+-`edit_deck`, `generate_tts`, the material tools, `web_search`, `fetch_url`,
+-`render_scene_preview` — is the same toolset you would use for a single stage,
+-applied with that stage's explicit `stageId` on every call.
++Work entirely in conversation. Ask concise questions, show the complete series
++proposal, wait for explicit approval, and then produce structured lesson plans
++or lesson content in the format the user requested. Do not imply that a deck,
++folder, classroom, file, or other persistent artifact was created unless the
++current environment actually provides and successfully uses that capability.
+ 
+-## `ask_user` ends the run
++## Clarification is sequential
+ 
+-Calling `ask_user` turns the user's composer into a question form and **stops
+-this run**. Their answer starts the next one, with the conversation intact. Two
+-consequences shape how you clarify:
++Two principles shape how you clarify:
+ 
+-- **One round is one call.** Everything you are asking at this point goes into a
+-  single `ask_user` — two calls back to back is two waits for one round of
+-  questions, and the second card lands on a user who is still reading the first.
++- **One round is one message.** Put the two or three related questions for that
++  round together, then wait for the user's answer before asking the next round.
+ - **The rounds themselves are sequential, on purpose.** What you ask second
+   depends on what they answered first: you cannot offer 「案例领域偏好：生活化小
+   工具 / 办公自动化 / 小游戏」 before you know they have never written code. Two
+@@ -40,7 +34,7 @@
+ A series request is almost always underdetermined. A single sentence like
+ 「7 天学 Python」 fixes the topic and the lesson count and leaves open everything
+ that decides what the lessons actually contain. Work through it in **two or three
+-rounds**, one `ask_user` per round, each round narrower than the one before.
++rounds**, each round narrower than the one before.
+ 
+ **Round 1 — where this lands.** The two or three things nothing else can be
+ decided without:
+@@ -82,14 +76,8 @@
+   have decided yourself is padding, and padding reads as stalling, not as care.
+   When the next round has nothing load-bearing left in it, go to Gate 2.
+ 
+-**The question IS the tool call, never the text.** Writing the questions into
+-chat prose is not asking: the user gets no answer form, only a turn that ended
+-in a paragraph, and nothing to answer with. Two patterns are banned outright —
+-listing the questions in narration instead of calling the tool («为确保安排合适，
+-请一次确认以下信息：…» followed by no `ask_user`, which is exactly how this gate
+-fails), and narrating the question before asking it. The sentence you write
+-before the gate says what you are about to do; it must not contain a question
+-mark, and it must not preview the questions themselves.
++Ask the questions directly and make them easy to answer. Do not bury them in a
++long preamble, and do not continue as though silence were consent.
+ 
+ When the request is already specific enough — the user described the audience
+ and the shape they want, or attached the syllabus — skip this gate. Go straight
+@@ -111,19 +99,12 @@
+ - anything you decided for them that they might disagree with — the level you
+   pitched it at, the order, what you deliberately left out.
+ 
+-Then call `ask_user` for an explicit go, and offer the obvious alternatives to
+-a plain yes: change the count, reorder, drop or add a lesson, adjust the level.
+-A silent or ambiguous answer is not a go. If they change something, show the
+-revised list and ask again — a second confirmation round is far cheaper than
+-seven stages built to the wrong brief.
++Ask for an explicit go and offer the obvious alternatives to a plain yes:
++change the count, reorder, drop or add a lesson, or adjust the level. A silent
++or ambiguous answer is not a go. If the user changes something, show the revised
++list and ask again. A second confirmation round is far cheaper than seven
++lessons built to the wrong brief.
+ 
+-The list above belongs in the chat — it is what the user reads. **The ask does
+-not.** The go is an `ask_user` call with those alternatives as its options; a
+-turn that presents the list and then asks «可以开始吗？» in prose ends with no
+-way to answer, and treating that silence as consent is the one thing this gate
+-exists to prevent. Same rule as Gate 1: no question mark in the narration, and
+-no preview of the question you are about to ask.
+-
+ ## Designing the series
+ 
+ - **Progression.** Each stage opens where the previous one closed. What is
+@@ -144,69 +125,54 @@
+   folder reads as a curriculum: 「第 3 天：把重复的活写成函数」 rather than
+   「Python 基础（三）」.
+ 
+-## The execution loop
++## The development loop
+ 
+ Once you have the go:
+ 
+-1. `create_folder` for the series, named as the user would name it.
+-2. For each stage, in order:
+-   - `create_stage` passing the series folder's `folderId` — the stage is filed
+-     into the folder in the same call, never left sitting in ungrouped — keep
+-     the returned `stageId` and pass it to every generation/edit/read call;
+-   - build it by the `stage-design` sequence — outline once, roster, one
+-     `generate_scene` per page in order, `list_scenes` to verify, audio checked
+-     before it counts as done;
+-   - after the lesson is built, `list_folder_stages` and check the stage is in
+-     the series folder. If it shows no folder (the `folderId` was dropped), call
+-     `move_to_folder` to file it right away — never let the whole series run to
+-     the end before noticing an ungrouped stage;
+-   - write **one short paragraph into the chat**: what this lesson ended up
+-     covering, and what the next one starts from. Three or four sentences.
+-3. Before starting a stage that builds on an earlier one, `read_stage_outline`
+-   on that earlier stage. Read what was actually built, not what you planned to
+-   build — the outline generator's plan is never exactly your proposal, and
+-   continuity has to be against reality.
+-4. `list_folder_stages` when you need to know where the series stands — which
+-   stages exist, in what order.
++1. Restate the approved series title, audience, outcome, cadence, and lesson
++   list as a compact working contract.
++2. Develop each lesson in order. For every lesson provide its outcome,
++   prerequisites, opening hook, teaching sequence, learner practice, evidence
++   of learning, transfer task, and bridge to the next lesson.
++3. After each lesson, write one short paragraph explaining what it actually
++   covered and what the next lesson may safely assume. Use the completed lesson,
++   not only the original proposal, as the continuity record.
++4. If the user requested full learner-facing content, produce it lesson by
++   lesson and label unfinished portions plainly. If they requested a curriculum
++   plan, do not inflate it into invented completed materials.
+ 
+ ## Long-run context discipline
+ 
+-A series is a long conversation, and everything you write stays in it. Your
+-per-lesson recap is the series' memory: keep it about the lesson — what it
+-teaches, what it assumed, what it left for later. Do not replay tool detail
+-(page counts per call, ids, which tool returned what); do not re-quote outlines
+-you already summarized; do not restate the whole series plan at every step. If
+-you need a detail from an earlier lesson, read it back with `read_stage_outline`
+-or `list_folder_stages` instead of keeping it alive by repetition.
++A series is a long conversation. Your per-lesson recap is the series' memory:
++keep it about what the lesson teaches, what it assumes, and what it leaves for
++later. Do not re-quote outlines already summarized or restate the whole series
++plan at every step. Consult the earlier messages when continuity depends on a
++detail rather than reconstructing it from memory.
+ 
+ ## When something fails
+ 
+-One bad page does not end a series. If a page or a whole stage will not
+-generate:
++One weak or incomplete lesson does not end a series. If part of a lesson cannot
++be completed from the available information:
+ 
+-- retry it once — every tool is idempotent, and an interrupted step just needs
+-  re-issuing;
+-- if it still fails, note it, leave the rest of that stage intact, and move on
+-  to the next one. Do not restart the series, and do not silently drop a lesson
+-  from the plan;
++- ask for the missing fact when it is load-bearing; otherwise mark a bounded
++  assumption and continue;
++- leave the rest of that lesson intact and move on when useful independent work
++  remains. Do not restart the series or silently drop a lesson from the plan;
+ - keep a short running list of what did not come out right, and **report it at
+-  the end**: which lesson, which page, what needs a rebuild. A series delivered
+-  with two known gaps is worth far more than a series abandoned at lesson three.
++  the end**: which lesson, which section, and what still needs revision.
+ 
+ ## Finishing
+ 
+ Close with:
+ 
+-- the **folder link**, so the user lands on the series;
+ - a short **series summary**: the lessons that were built, in order;
+-- the **rework list** — anything that failed or that you would build differently
+-  — or a sentence saying there is none.
++- links only to artifacts that really exist;
++- the **rework list** — anything incomplete or worth revising — or a sentence
++  saying there is none.
+ 
+ ## Related skills
+ 
+-`stage-design` governs each individual stage; this skill adds the layer above it
+-and never replaces it — read both. If a lesson in the series has a shape of its
+-own — hands-on, vocational, research-backed — the matching topic skill applies
+-inside that stage. And if the subject rests on facts you would have to verify
+-rather than recall, run `deep-research` BEFORE Gate 2, not after: a series plan
+-the user approved is a plan you then have to build.
++If a lesson has a distinct shape—hands-on, vocational, or research-backed—use
++the relevant teaching approach inside that lesson. Verify any time-sensitive or
++specialist facts **before Gate 2**, not after: a series plan the user approved is
++a plan you then have to honor.
