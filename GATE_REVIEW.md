@@ -1,7 +1,10 @@
 # S1 human gate: three OpenMAIC rewrites
 
-Status: **WAITING FOR EXPLICIT USER APPROVAL**. This packet contains only the
-three required samples. No bulk rewrite has been started.
+Status: **RESUBMITTED AFTER REQUEST CHANGES; WAITING FOR EXPLICIT USER
+APPROVAL**. The original decision is preserved in [`GATE_DECISION.md`](GATE_DECISION.md),
+and the six-item response is recorded in
+[`GATE_RESUBMISSION.md`](GATE_RESUBMISSION.md). This packet still contains only
+the three required samples. No bulk rewrite has been started.
 
 ## Provenance and review snapshot
 
@@ -9,7 +12,8 @@ three required samples. No bulk rewrite has been started.
 - Upstream commit: `dfebbcf33f3a56064129903faeab70a9e4243146`
 - License: MIT (`LICENSE` is preserved at the companion repository root)
 - Companion: `https://github.com/arinova-ai/skills-openmaic`
-- Sample-content commit: `f05dbdf309199dd2072a9026660171a0003ea9a0`
+- Original sample-content commit: `f05dbdf309199dd2072a9026660171a0003ea9a0`
+- K-12 corrected-content commit: `933d507931ee46084608fa3fbcc1f3dab8f0b6b8`
 - Local upstream root: `/Users/ripple/skill-gap-2-upstreams/S1-openmaic`
 - Local companion root: `/Users/ripple/orca/workspaces/arinova-skill-companions/skills-openmaic`
 
@@ -32,6 +36,9 @@ changes instead of CRLF noise.
    vendor or runtime dependency.
 5. Exclude authoring/import/DSL skills from the later bulk set rather than
    trying to disguise product-specific mechanics as generic pedagogy.
+6. Port bundled reference files that contain no targeted runtime vocabulary;
+   do not discard pedagogical grounding merely because the runtime wrapper is
+   removed.
 
 The targeted runtime vocabulary check was:
 `create_stage|generate_scene|patch_stage|set_roster|ask_user|edit_deck|stage-design|pro-editing|OpenMAIC|` followed by the product object names
@@ -60,14 +67,18 @@ claiming that a folder, deck, classroom, or file was created.
 - After: `/Users/ripple/orca/workspaces/arinova-skill-companions/skills-openmaic/skills/k12-core-literacy-planning/SKILL.md`
 - Full diff: `gate-diffs/k12-core-literacy-planning.patch`
 - Before SHA-256: `fbc03e9245406bac2d5b312f1a5711de311d17dc98eeb30d8eab298ee397c08f`
-- After SHA-256: `23e85e6aaf2fb6c0609a3f6d26e226b736a1e534c21ec5cf6b88ef49ff3ae7d1`
-- Size/diff: 185 lines before, 172 after; `+59/-72`
+- After SHA-256: `d666930a1ca1aae5d53a5ec5ce95ba03023e9ffa32474e252cdae7f0f6c7c726`
+- Size/diff: 185 lines before, 195 after; `+79/-63`
 - Targeted runtime terms: 26 before, 0 after
 
 Difference summary: replaces `create_stage`, `ask_user`, `generate_scene`,
 `patch_stage`, and `edit_deck` calls with a conversational lesson-plan
 workflow. It preserves literacy load planning, assessment, accessibility,
-learner context, and both new-plan and existing-plan paths.
+learner context, and both new-plan and existing-plan paths. The corrected
+sample also ports the five upstream core-literacy reference files byte for
+byte (229 lines), consults them before planning, removes the remaining generic
+runtime-object residue from the main skill, restores the turn-ending contract,
+and offers inline chat content when slide or media capabilities are absent.
 
 ## Sample 3: understanding-by-design
 
@@ -85,7 +96,8 @@ activities, and existing-plan adaptation. All UbD and WHERETO concepts remain.
 
 ## Decision requested
 
-Please explicitly choose one of these outcomes:
+Please re-review the corrected K-12 sample and explicitly choose one of these
+outcomes:
 
 - **APPROVE S1 SAMPLES** — apply these rules to the full selected S1 set.
 - **REQUEST CHANGES** — identify the sample and requested adjustment; do not

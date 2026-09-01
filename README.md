@@ -14,7 +14,7 @@ The source material is primarily Simplified Chinese with English frontmatter.
 
 ## Human review gate
 
-This branch currently contains exactly three rewritten samples:
+This checkpoint contains exactly three rewritten samples:
 
 1. `curriculum-planner`
 2. `k12-core-literacy-planning`
@@ -23,9 +23,11 @@ This branch currently contains exactly three rewritten samples:
 They preserve the upstream pedagogy and replace unavailable calls such as
 `create_stage`, `generate_scene`, `patch_stage`, `set_roster`, `ask_user`, and
 `edit_deck` with ordinary conversation, explicit confirmation, and structured
-lesson outputs. Full-batch adaptation and catalog import must not begin until
-the coordinator explicitly approves these samples.
+lesson outputs. Following the 2026-09-02 request-changes decision, the K-12
+sample also carries its five upstream core-literacy reference files (229 lines)
+and the six-item response is documented in `GATE_RESUBMISSION.md`. Full-batch
+adaptation and catalog import must not begin until the corrected sample is
+explicitly approved.
 
 Authoring/DSL entries (`slide-dsl`, `stage-dsl`, `page-clone`, `pptx-import`,
 and related runtime tooling) are outside this companion's scope.
-
