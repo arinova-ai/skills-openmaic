@@ -1,0 +1,179 @@
+--- upstream/skills/agent-runtime/lecture-style/SKILL.md
++++ companion/skills/lecture-style/SKILL.md
+@@ -4 +4 @@
+-description: Masterclass lecturing — one continuous explanation carried by slides, with dense pages, long narration that builds an argument across several real cases, and checkpoints that are rare and deliberate. Use when the ask is a lecture, a masterclass, a systematic walkthrough of a subject, 「大师课」「系统讲解」「讲透」, or any topic whose payoff is understanding rather than practice; also use when the user names this style. Not for hands-on training (that is `workshop-style`) and not for a course whose point is manipulating a mechanism (that is `deep-interactive`).
++description: Masterclass lecturing—a continuous explanation with dense supporting segments, long narration that develops an argument through recurring real cases, and rare deliberate checkpoints. Use for a lecture, masterclass, systematic walkthrough, 「大师课」「系统讲解」「讲透」, or a topic whose payoff is understanding rather than practice. Not for hands-on training or a mechanism best learned through manipulation.
+@@ -9,4 +9,4 @@
+-You are designing a **lecture**. One voice carries the learner from not knowing
+-the subject to being able to explain it, and the pages exist to support that
+-explanation rather than to interrupt it. Density is a feature here: a lecture
+-page that says one thing is a wasted page.
++Design a **lecture** in which one coherent voice carries the learner from not
++knowing the subject to being able to explain its central argument. Supporting
++text and visuals serve that explanation rather than interrupt it. Density is a
++feature when every detail advances the argument.
+@@ -14,4 +13,0 @@
+-`stage-design` still governs how the stage is built — outline, roster, one page
+-per `generate_scene`, audio before done. This skill governs what the stage
+-contains and how it sounds.
+-
+@@ -20,19 +16,12 @@
+-- **Scene 1 is a `slide`** that opens the lecture properly — the question the
+-  subject answers, why it is worth an hour, and the route the lecture takes
+-  through it. Not a definitions page and not a table of contents.
+-- **The body is `slide` pages, in arcs.** An arc is three to five pages that
+-  carry one idea from statement to consequence — the claim, the mechanism
+-  underneath it, then real cases that test it. Arcs follow each other; the
+-  lecture never restarts.
+-- **Checkpoints are rare.** One `quiz` roughly every four to five pages, placed
+-  at the seam where one arc closes and the next begins, testing whether the
+-  learner can apply the arc's idea rather than recall its words. Two quizzes in
+-  six pages is not a lecture, it is a test with slides in between.
+-- **At most one `interactive` page**, at the single most mechanism-heavy concept
+-  in the whole lecture — the one place where telling genuinely fails and the
+-  learner has to see the thing move. If the subject has two such concepts, a
+-  second is defensible; a third means the request was never a lecture and
+-  `deep-interactive` fits it better.
+-- **Close on the argument**, not on a bullet recap: what the lecture
+-  established, what it deliberately left open, where a curious learner goes
+-  next.
++- Open with the question the subject answers, why it is worth the learner's
++  time, and the route the lecture will take. Do not open with definitions or an
++  agenda.
++- Organize the body into arcs of three to five segments. Each arc carries one
++  idea from claim to mechanism to consequences and real cases.
++- Use a checkpoint roughly once every four or five segments, at the seam
++  between arcs. Test application of the idea, not recall of its wording.
++- Reserve at most one or two hands-on demonstrations for mechanisms that
++  genuinely cannot be understood by telling alone. If manipulation dominates,
++  use a hands-on design instead.
++- Close on what the argument established, what remains open, and where a
++  curious learner should go next—not a bullet recap.
+@@ -40 +29 @@
+-## Page density
++## Information density
+@@ -42,5 +31,4 @@
+-Each body page carries **four to six `keyPoints`** and they are propositions,
+-not labels — 「利率上升先压估值再压盈利」rather than 「利率影响」. A page holds
+-one claim plus the evidence that makes it stick: a definition and its
+-boundary, a mechanism and a worked case, a comparison and the criterion that
+-separates the two sides.
++Each body segment carries four to six propositions, not labels. Pair one claim
++with the evidence that makes it stick: a definition and its boundary, a
++mechanism and a worked case, or a comparison and the criterion separating its
++sides.
+@@ -48,3 +36,3 @@
+-Name a real case per arc — a company, a study, a historical episode, a piece of
+-code — and let it recur. A lecture that cycles through a fresh unexplained
+-example every page teaches nothing about any of them.
++Use at least one real case per arc and let it recur. A lecture that introduces
++a new unexplained example every few minutes teaches nothing deeply about any of
++them. Verify current or externally checkable cases before relying on them.
+@@ -52 +40 @@
+-## Narration is the lecture
++## The spoken line is the lecture
+@@ -54 +42,9 @@
+-This is where the style is heard, so it is the part to get right.
++- Give each body segment a continuous explanation: several connected
++  sentences, not captions.
++- Move forward. Pick up the previous segment's final idea, explain the next
++  mechanism, and walk the recurring case through it.
++- Use the register of an authority thinking aloud: confident, unhurried, and
++  willing to name what is difficult before resolving it.
++- A second voice may raise the sharp question the audience is already thinking
++  at an arc boundary. Use it rarely; do not fragment the argument.
++- Avoid empty prompts, title restatements, and generic cheerleading.
+@@ -56,15 +52 @@
+-- Every body page gets **a long, continuous stretch of teacher speech** — four
+-  to six sentences per line rather than a caption, and several lines to a page.
+-  The learner should be able to close their eyes and still follow.
+-- Narration **moves forward**. Each line picks up the last one's final idea:
+-  state it, explain the mechanism, then walk a concrete case through that
+-  mechanism until the conclusion is unavoidable.
+-- The register is an authority thinking aloud in front of a room — full
+-  sentences, confident, unhurried, occasionally naming what is hard about the
+-  idea before resolving it.
+-- The assistant speaks **rarely**, and only to ask the question the room is
+-  already thinking, which the teacher then answers at length. One such
+-  exchange per arc, at most.
+-- Forbidden in this style: 「大家想一想」-style prompts with nothing behind
+-  them, one-line captions that restate the slide's title, and cheerleading
+-  (「太棒了」「让我们开始吧」).
++Good motion:
+@@ -72 +54,3 @@
+-Examples of the right length and motion:
++> 我们先把定义钉住——所谓久期，不是债券还剩多少年，而是价格对利率的
++> 敏感度。接下来看 2022 年的例子：同样的加息幅度，为什么二十年期的跌幅
++> 会远大于五年期？
+@@ -74,4 +58 @@
+-- Good: 「我们先把定义钉住——所谓久期，不是债券还剩多少年，而是价格对利率的
+-  敏感度……接下来看 2022 年的例子，同样的加息幅度，为什么二十年期的跌幅是五年期
+-  的四倍多。」
+-- Bad: 「这一页讲久期。久期很重要。下面我们来看例子。」
++Bad motion:
+@@ -79 +60 @@
+-## The roster
++> 这一节讲久期。久期很重要。下面来看例子。
+@@ -81,8 +62 @@
+-The runtime allows **exactly one teacher**, and in this style that teacher is
+-the lecturer — the whole course is their voice. Write the roster with
+-`set_roster`: a senior domain authority with a calm, measured delivery, plus
+-one assistant whose entire job is to raise the sharp question at an arc
+-boundary. Keep the roster small; a crowded classroom fragments a lecture. Put
+-the lecturing manner in the persona text and the pacing in
+-`voiceDesign.delivery` — 「calm measured authoritative, unhurried」 rather than
+-「lively energetic」.
++## Voice design
+@@ -90 +64,4 @@
+-## Carrying the style into the generators
++Use one lead lecturer: a senior domain authority with calm, measured delivery.
++An optional questioner exists only to surface a load-bearing objection or
++transition. Keep the roles small and put the lecturing manner, pacing, and
++relationship between the voices directly into the written plan.
+@@ -92,5 +69,3 @@
+-There is no outline generator: you plan the course in the conversation, then
+-call `create_stage` and one `generate_scene` per page with an explicit brief.
+-Page content and narration are written by separate calls that see only the
+-page's brief, the page content and the roster. So the style has to be carried
+-there explicitly:
++If audio or visual production is unavailable, provide the lecture script and
++supporting visual brief inline. Never claim that media was created when it was
++not.
+@@ -98,7 +73 @@
+-- put the arc structure and the density expectation into each page's
+-  `generate_scene` `brief`;
+-- put the lecturing manner into each persona of `set_roster`;
+-- pass the narration directive for each page in `generate_scene.materialFacts`
+-  — e.g. 「旁白为连续讲述，四到六句一段，先定义再机制再案例」「本页复用前一页
+-  的同一家公司作为案例」. Naming this skill in a prompt does nothing; only the
+-  text you place in those fields is seen.
++## Conversation workflow
+@@ -106 +75,8 @@
+-## Scene naming
++1. Settle the audience, duration, central question, and desired depth.
++2. Draft the argument as connected arcs and name the recurring case for each.
++3. Show the complete outline and wait for explicit approval.
++4. Develop every approved segment with its claim, mechanism, evidence, case,
++   spoken explanation, and transition.
++5. Insert only the rare checkpoints justified by an arc boundary.
++6. Read the whole argument in order and repair restarts, unexplained examples,
++   thin segments, or a conclusion that merely repeats headings.
+@@ -108 +84 @@
+-Titles are the lecture's own steps, in the language of the subject.
++## Naming
+@@ -110,2 +86 @@
+-- Good: 「久期到底在度量什么」「同样加息，为什么长债跌得更狠」「三个反例，和它们
+-  的共同点」
++- Good: 「久期到底在度量什么」「同样加息，为什么长债跌得更狠」「三个反例，和它们的共同点」
+@@ -114 +89 @@
+-## If the request is not a lecture
++## Boundary and completion check
+@@ -116,4 +91,4 @@
+-If the user wants to practise a skill, produce something of their own, or work
+-through exercises, say so in one sentence and use `workshop-style` instead.
+-Wrapping a practice request in a lecture produces a course the learner watches
+-and cannot use.
++Use a workshop when the learner needs to practise or produce something. A
++lecture is complete only when its arcs form one argument, every important claim
++has evidence, checkpoints are rare and applied, narration stands on its own,
++and the close states both the result and the remaining uncertainty.

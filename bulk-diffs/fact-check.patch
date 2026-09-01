@@ -1,0 +1,208 @@
+--- upstream/skills/agent-runtime/fact-check/SKILL.md
++++ companion/skills/fact-check/SKILL.md
+@@ -4 +4 @@
+-description: "Improve factual reliability while creating or reviewing a course or supplied content. Use when the user asks to fact-check, verify accuracy, reduce hallucinations, make a reliable course, or mentions 事实性错误、知识性错误、专业知识准确性、可靠性. During creation, checks the completed pages before delivery; on existing content, returns a short evidence-backed report and lets the user choose what to fix. Not for grammar, style, or layout. Combine with deep-research when current evidence is the course's main subject."
++description: "Improve factual reliability while creating or reviewing a lesson or supplied content. Use when the user asks to fact-check, verify accuracy, reduce hallucinations, or mentions 事实性错误、知识性错误、专业知识准确性、可靠性. During creation, check completed content before delivery; when reviewing existing material, return a short evidence-backed report and let the user choose what to fix. Not for grammar, style, or layout. Combine with deep-research when current evidence is the lesson's main subject."
+@@ -9,2 +9,2 @@
+-Keep serious factual mistakes and AI hallucinations out of the course without
+-turning course-making into an exhaustive audit. Focus on the few claims that
++Keep serious factual mistakes and hallucinations out of learning content
++without turning the work into an exhaustive audit. Focus on the few claims that
+@@ -13,2 +13 @@
+-Choose the mode from the request and current course state; do not ask the user
+-to choose a mode:
++Infer the mode from the request:
+@@ -16,5 +15,4 @@
+-- **Creating:** when there is no course yet or the user asks to build/rebuild
+-  one, load `stage-design` and run the check only after all pages exist.
+-- **Reviewing:** when content already exists and the user asks to inspect it,
+-  report findings first. Do not edit unless fixes were already requested or the
+-  user approves findings after the report.
++- **Creating:** fact-check the completed lesson before delivery and correct
++  errors introduced during drafting, subject to the source-of-truth boundary.
++- **Reviewing:** report findings first. Do not edit unless fixes were already
++  requested or the user approves them after seeing the report.
+@@ -22 +20 @@
+-## While creating a course
++## Read the entire requested scope
+@@ -24,2 +22,4 @@
+-Use the normal `stage-design` workflow; this skill changes factual handling,
+-not the teaching method, page style, or build sequence.
++Read the supplied content in order, including visible text, notes, narration,
++captions, and answer explanations when available. Respect a narrower scope if
++the user gives one. If part of the source cannot be accessed, name the missing
++portion rather than claiming a full review.
+@@ -27,16 +26,0 @@
+-After all pages exist, call `list_scenes`, then read every completed page with
+-`read_stage` using `detail:"text"`; follow `nextOffset` until all visible text
+-and narration have been read. Run a quick final sanity check of exact facts and
+-cross-page contradictions. Correct obvious errors before delivery because
+-creating the course already authorizes making its content accurate, subject to
+-the source-of-truth boundary below. Do not interrupt creation with a separate
+-audit report or approval gate unless that boundary requires a user decision;
+-briefly mention only material corrections or remaining uncertainty when
+-handing off the finished course.
+-
+-## When reviewing existing content
+-
+-For a course, call `list_scenes`, then read all visible text and narration with
+-`read_stage` using `detail:"text"`; follow `nextOffset` until complete. Respect a
+-narrower scope if the user gave one.
+-
+@@ -45 +29 @@
+-- exact numbers, dates, counts, names, and attributed quotations;
++- exact numbers, dates, counts, names, and quotations;
+@@ -47,4 +31,5 @@
+-- “first”, “only”, “always”, “must”, and similar absolute claims;
+-- causal or professional conclusions stated as settled fact;
+-- contradictions between pages;
+-- suspiciously specific claims with no visible support.
++- “first,” “only,” “always,” “must,” and other absolute claims;
++- causal, medical, legal, financial, or professional conclusions presented as
++  settled fact;
++- contradictions between sections;
++- suspiciously precise claims with no visible support.
+@@ -52,2 +37,2 @@
+-Do not verify every claim. Skip correct material, wording preferences, harmless
+-simplifications, and low-value trivia.
++Do not verify every sentence. Skip correct material, wording preferences,
++harmless simplifications, and low-value trivia.
+@@ -57,2 +42,4 @@
+-Check `list_materials` and relevant `read_material` content first. User sources
+-may support a claim, but the course being checked cannot prove itself.
++Check relevant user materials first. The content being reviewed cannot prove
++itself. Use current web research for shortlisted claims that are exact,
++changing, disputed, high-stakes, or specialist. A normal first pass should need
++no more than about six to eight searches.
+@@ -60,4 +47,3 @@
+-Use `web_search` for shortlisted claims that depend on current, exact, disputed,
+-or specialist knowledge. A normal first pass should need no more than about
+-6–8 searches. Use `fetch_url` to read the source: a result snippet or the mere
+-existence of a related source is not evidence.
++Prefer primary or official sources and read the actual source; a snippet is not
++evidence. For versioned knowledge, verify the date, version, and jurisdiction.
++For compound statements, isolate and test the questionable part.
+@@ -65,6 +51,3 @@
+-Do not pause the run to ask the user for sources, permission to use general
+-knowledge, or permission to continue. Use the tools and materials that are
+-available. If web search is unavailable, continue with stable knowledge, make
+-fewer factual commitments, and mark genuinely uncertain claims. Never guess a
+-URL for `fetch_url`; fetch only a user-provided URL or one returned by
+-`web_search`.
++If search or source access is unavailable, make fewer factual commitments and
++mark important uncertainty. Never guess a URL or fabricate supporting text.
++“No reliable evidence found” does not establish falsity.
+@@ -72,9 +54,0 @@
+-For a compound statement, isolate the questionable part and verify that exact
+-part. Prefer primary or official sources. One authoritative source is enough
+-for an obvious error; add corroboration only for disputed or high-impact
+-claims. For versioned knowledge such as law, policy, standards, or medicine,
+-check the relevant date, version, and jurisdiction.
+-
+-“No reliable evidence found” does not mean false. If verification remains
+-inconclusive, say so rather than inventing a verdict or correction.
+-
+@@ -83,4 +57,3 @@
+-Do not make a correction that would materially conflict with the settled
+-course plan, user-uploaded materials, or facts already supplied to generation
+-through `materialFacts`. Treat these as approved inputs, not ordinary generated
+-copy.
++Do not silently correct a claim that materially conflicts with a settled plan,
++user-supplied source, or fact the user explicitly approved. Flag the exact
++conflict, show concise contrary evidence, and ask the user to choose among:
+@@ -88,9 +61,3 @@
+-If the evidence indicates that an approved input itself may contain a factual
+-error, do not edit the affected course content or silently override the input.
+-Use `ask_user` to flag the input conflict, state the affected page or claim and
+-the contrary evidence concisely, and offer options to keep the approved input,
+-authorize the factual correction, or review the conflict without editing. Put
+-the warning in the `ask_user` prompt so it appears in the choice card, not only
+-in the preceding report. This protection applies even when edits were otherwise
+-authorized. It does not block corrections to errors introduced independently
+-by generated page content.
++- keep the approved input;
++- authorize the factual correction; or
++- review the conflict without editing.
+@@ -98 +65,2 @@
+-## Give a short, readable review report
++This boundary does not protect an error independently introduced by the
++assistant. During creation, correct those errors before delivery.
+@@ -100,4 +68 @@
+-In review mode, return roughly 3–8 useful findings in the first pass, or fewer
+-when fewer exist. Group them under these bold plain-text labels, in this order,
+-and omit an empty group. Keep them at normal body-text size: do not prefix them
+-with Markdown heading markers such as `#` or `##`.
++## Report only useful findings
+@@ -104,0 +70,3 @@
++In review mode, return roughly three to eight material findings on the first
++pass, or fewer when fewer exist. Use these groups in order and omit empty ones:
++
+@@ -107 +75 @@
+-- **C. 需要核实** — include only when the claim matters
++- **C. 需要核实**
+@@ -109,5 +77,3 @@
+-Within the groups, number findings consecutively across the whole report with
+-Arabic numerals. Give every finding a short bold line containing its number,
+-page/location, and specific issue, for example:
+-`**1. 第 5 页｜测验解析｜知识混淆**`. Do not use Markdown heading markers for
+-finding titles either.
++Number findings across all groups. Give each a short bold line with its number,
++location, and issue, such as `**1. 第 5 节｜解析｜知识混淆**`. Under it use
++exactly three bullets:
+@@ -115 +81,4 @@
+-Under each heading, use exactly three bullets:
++- **原始表述：** quote only the necessary fragment;
++- **存在问题：** explain the problem and correct fact, with concise source and
++  date when useful;
++- **修改建议：** state the edit or a compact replacement.
+@@ -117,4 +86,4 @@
+-- **原始表述：** quote only the relevant sentence or fragment;
+-- **存在问题：** explain the error and the correct fact in plain language;
+-  include a concise source and date here when useful;
+-- **修改建议：** give only the edit action or a compact replacement.
++Keep each bullet to one or two sentences. Do not show scores, confidence
++percentages, lengthy method, correct claims, or minor style issues. If no
++material problem is found, state the scope reviewed and that no obvious error
++was found; never claim perfect accuracy.
+@@ -122,4 +91 @@
+-Keep each bullet to one or two short sentences. Do not repeat the same fact or
+-quotation across bullets. If **存在问题** already gives the applicable rule or
+-correct wording, **修改建议** should only state the change — for example,
+-“按上述条文改写，删除‘商业秘密、法人’” — instead of quoting the article again.
++## Approval and editing discipline
+@@ -127,4 +93,5 @@
+-Do not show scores, confidence percentages, lengthy methodology, correct
+-claims, or minor style issues. Do not pad the report to reach a quota. If no
+-material issue is found, say what scope was scanned and that no obvious error
+-was found; do not claim the content is perfectly accurate.
++When review mode finds actionable issues and edits were not pre-authorized,
++end by asking the user to choose: fix all reported issues, fix confirmed errors
++only, keep the report unchanged, or name specific finding numbers. Wait for the
++answer. Then change only the approved claims and read the affected context again
++to ensure the correction did not introduce a contradiction.
+@@ -132,22 +99,3 @@
+-## Let the user choose after a review
+-
+-When there are actionable findings and edits were not already authorized, the
+-last action of the turn must be an `ask_user` tool call with a non-empty
+-`options` array. This is an interaction requirement: do not merely print option
+-ids or end a normal chat message with “which do you choose?”. Use concise labels
+-in the user's language, equivalent to:
+-
+-- fix all reported issues;
+-- fix confirmed errors only;
+-- keep the report without changes.
+-
+-Use stable option ids such as `fix_all`, `fix_confirmed`, and `keep`. The form's
+-free-text choice lets the user enter selected finding numbers such as `1, 3`.
+-
+-An approved-input conflict always requires the separate `ask_user` choice
+-described above, even if the user previously authorized general corrections.
+-
+-Do not patch before the answer. After approval, load `pro-editing`, read each
+-selected page with `read_stage` using `detail:"source"`, and change only the
+-approved claims. If narration changes, regenerate its audio as required by
+-`pro-editing`.
++When creating, mention only material corrections or remaining uncertainty in
++the handoff. Do not interrupt the lesson-building flow with a separate approval
++gate unless an approved-input conflict requires it.

@@ -1,10 +1,12 @@
-# S1 human gate: three OpenMAIC rewrites
+# S1 human gate and selected-set checkpoint
 
-Status: **RESUBMITTED AFTER REQUEST CHANGES; WAITING FOR EXPLICIT USER
-APPROVAL**. The original decision is preserved in [`GATE_DECISION.md`](GATE_DECISION.md),
-and the six-item response is recorded in
-[`GATE_RESUBMISSION.md`](GATE_RESUBMISSION.md). This packet still contains only
-the three required samples. No bulk rewrite has been started.
+Status: **APPROVED; LOCAL SELECTED-SET REWRITE COMPLETE**. The original
+**REQUEST CHANGES** decision is preserved in
+[`GATE_DECISION.md`](GATE_DECISION.md), the six-item response is recorded in
+[`GATE_RESUBMISSION.md`](GATE_RESUBMISSION.md), and the later
+**APPROVE S1 SAMPLES** outcome plus bulk authorization is recorded in
+[`GATE_APPROVAL.md`](GATE_APPROVAL.md). No catalog acquisition or promotion has
+been started.
 
 ## Provenance and review snapshot
 
@@ -14,13 +16,18 @@ the three required samples. No bulk rewrite has been started.
 - Companion: `https://github.com/arinova-ai/skills-openmaic`
 - Original sample-content commit: `f05dbdf309199dd2072a9026660171a0003ea9a0`
 - K-12 corrected-content commit: `933d507931ee46084608fa3fbcc1f3dab8f0b6b8`
+- Bulk selected-set content commit: `97db4a2823591e402b59463c1d5866a506eabf36`
+- Deep-research boundary commit: `0f5d13daca153219812d39bf3dc83f03dcf03a95`
+- Selection and exclusion evidence: `SELECTION.md`
+- Path/hash inventory: `BULK_MANIFEST.tsv`
+- Audit-packet hashes: `EVIDENCE_HASHES.tsv`
 - Local upstream root: `/Users/ripple/skill-gap-2-upstreams/S1-openmaic`
 - Local companion root: `/Users/ripple/orca/workspaces/arinova-skill-companions/skills-openmaic`
 
-The patch files in `gate-diffs/` compare the exact upstream file at the pinned
-commit with its proposed companion file at the sample-content commit. Line
-endings are normalized in the patches only so that reviewers see semantic
-changes instead of CRLF noise.
+The three patches in `gate-diffs/` cover the approved samples. The 11 patches in
+`bulk-diffs/` cover the other selected skills. They compare the exact pinned
+upstream files with the current companion files; line endings are normalized in
+the patches only so reviewers see semantic changes instead of CRLF noise.
 
 ## Rewrite rules applied to all three samples
 
@@ -42,8 +49,8 @@ changes instead of CRLF noise.
 
 The targeted runtime vocabulary check was:
 `create_stage|generate_scene|patch_stage|set_roster|ask_user|edit_deck|stage-design|pro-editing|OpenMAIC|` followed by the product object names
-`slide`, `interactive`, `quiz`, and `pbl` in backticks. Each proposed sample has
-zero remaining matches.
+`slide`, `interactive`, `quiz`, and `pbl` in backticks. All 14 selected skill
+trees, including their 11 auxiliary files, have zero remaining matches.
 
 ## Sample 1: curriculum-planner
 
@@ -94,14 +101,20 @@ Difference summary: replaces OpenMAIC object types and stage-editing calls
 with ordinary clarification, GRASPS performance tasks, diagnostics, learning
 activities, and existing-plan adaptation. All UbD and WHERETO concepts remain.
 
-## Decision requested
+## Decision outcome and local bulk checkpoint
 
-Please re-review the corrected K-12 sample and explicitly choose one of these
-outcomes:
+The coordinator explicitly returned **APPROVE S1 SAMPLES** after adversarially
+re-reviewing corrected commit
+`933d507931ee46084608fa3fbcc1f3dab8f0b6b8` against pinned upstream
+`dfebbcf33f3a56064129903faeab70a9e4243146`. That decision authorized applying
+the approved rules to the selected set in this isolated companion.
 
-- **APPROVE S1 SAMPLES** — apply these rules to the full selected S1 set.
-- **REQUEST CHANGES** — identify the sample and requested adjustment; do not
-  start the bulk rewrite.
+The resulting scope is exactly 14 selected pedagogy skills and 9 excluded
+product/authoring/DSL agent-runtime entries. The coordinator then reviewed all
+14 outputs and approved their content after the explicit timeless-topic branch
+was restored in `deep-research`. `BULK_REWRITE.md`, `BULK_MANIFEST.tsv`, and the
+11 patches under `bulk-diffs/`, pinned by `EVIDENCE_HASHES.tsv`, are the
+complete local audit packet.
 
-Silence, a passing scan, or approval of another package does not pass this
-gate.
+Catalog acquisition, candidate creation, promotion, staging, production, push,
+and PR operations remain blocked by their separate coordinator gates.

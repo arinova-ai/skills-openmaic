@@ -1,7 +1,8 @@
 # S1 K-12 sample resubmission — 2026-09-02
 
-Status: **WAITING FOR EXPLICIT RE-REVIEW**. This is a local companion
-checkpoint only. It does not authorize the S1 bulk rewrite or catalog import.
+Status: **APPROVED AFTER EXPLICIT RE-REVIEW**. This remains a local companion
+checkpoint only. The later approval authorized the selected-set local rewrite,
+not catalog import; see `GATE_APPROVAL.md`.
 
 ## Immutable inputs
 
@@ -52,8 +53,9 @@ pinned upstream commit. The targeted runtime-vocabulary expression from
 `GATE_REVIEW.md` has zero matches across all three sample trees, including the
 restored references.
 
-## Gate
+## Gate outcome
 
-The corrected sample still requires an explicit `APPROVE S1 SAMPLES` decision.
-Until then, bulk rewrite, acquisition, promotion, staging, and production work
-remain blocked.
+The coordinator explicitly returned `APPROVE S1 SAMPLES` after independently
+re-verifying the corrected commit and all six changes. The 14-skill local
+selected-set rewrite is complete. Acquisition, promotion, staging, and
+production remain separate hard gates.
