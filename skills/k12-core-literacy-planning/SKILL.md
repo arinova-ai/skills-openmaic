@@ -23,11 +23,26 @@ and identify what changed instead of silently replacing it with a new lesson.
 ## Ground the lesson before planning
 
 Before proposing the learning sequence, determine the subject and school stage.
+Then consult both bundled references:
+
+1. [`references/core-literacy.md`](references/core-literacy.md), always;
+2. exactly one matching subject guide:
+   - Chinese / languages: [`references/subjects/languages.md`](references/subjects/languages.md)
+   - mathematics: [`references/subjects/mathematics.md`](references/subjects/mathematics.md)
+   - science / physics / chemistry / biology: [`references/subjects/science.md`](references/subjects/science.md)
+   - history / geography / morality and law / politics: [`references/subjects/humanities.md`](references/subjects/humanities.md)
+   - IT / arts / PE and health / labor: the matching section in
+     [`references/core-literacy.md`](references/core-literacy.md)
+
+Consulting the relevant reference is mandatory. Do not rely on a remembered
+dimension name when the reference distinguishes compulsory and senior-high
+wording.
+
 If the teacher supplies a curriculum-standard excerpt, textbook scope, or local
 school requirement, treat it as the grounding source and distinguish quoted
-language from your summary. If no current standard text is available, use
-general core-literacy language and explicitly avoid claiming exact official
-dimension names, clause numbers, or wording from memory.
+language from your summary. Use the bundled reference for the dimension names
+and planning model, while treating a supplied current standard as authoritative
+where it differs. Never claim an exact clause number or quotation from memory.
 
 If grade or topic is genuinely unknown, ask at most two load-bearing questions
 in one concise message and wait for the answer. Default the rest to 45 minutes,
@@ -42,7 +57,7 @@ or material fact.
 ## Settle the learning contract
 
 Choose only **one or two** primary literacy dimensions for one lesson. State
-the contract in this form before the page list:
+the contract in this form before the sequence outline:
 
 > Students will **do X** in order to make **literacy dimension Y** observable
 > through **evidence Z**.
@@ -57,10 +72,10 @@ The authentic context must carry all the way through the lesson:
 - learners use it in the central task;
 - assessment returns to it with a new case or changed condition.
 
-A story discarded after page 1 is decoration, not context. A normal exercise
+A story discarded after the opening segment is decoration, not context. A normal exercise
 with a person's name pasted on it is not an authentic problem.
 
-## Plan pages around learner work
+## Plan learning segments around learner work
 
 Default to 6–10 learning segments for a 45-minute lesson, but do not treat that
 range as a hard cap. Each proposed segment includes a title, activity format,
@@ -79,13 +94,13 @@ A useful default arc is:
 8. optional close: consolidate the method learners established and
    name what remains open.
 
-Choose the page type by the learning action:
+Choose the activity format by the learning action:
 
 - A short explanation frames a problem, carries source material or evidence,
   or consolidates a method. It must not become a run of teacher exposition.
-- An interactive activity is for changing a variable, tracing a structure, running code,
-  repeated rule-bound decisions or spatial inspection. One interactive page
-  carries one mechanism and says what changes, what is observed and what the
+- A hands-on or interactive activity is for changing a variable, tracing a
+  structure, running code, repeated rule-bound decisions or spatial inspection.
+  One activity carries one mechanism and says what changes, what is observed and what the
   observation establishes.
 - A diagnostic check exposes a misconception, compares explanations, or checks transfer.
   Distractors come from real misconceptions and feedback teaches, not merely
@@ -113,18 +128,25 @@ approval or revisions. Then:
    - what learners see, manipulate, read, discuss or produce;
    - the evidence or source they must use;
    - the likely misconception and the scaffold that addresses it;
-   - the assessment evidence collected on this page;
-   - the grade-appropriate register and the handoff to the next page.
+   - the assessment evidence collected in this segment;
+   - the grade-appropriate register and the handoff to the next segment.
 4. Include ready-to-use teacher prompts, expected learner moves, and feedback
    language when the user asked for classroom-ready detail; otherwise keep the
    output at lesson-plan resolution.
 5. Verify that every approved segment is present, ordered, and connected to the
    performance task. Do not claim that slides, media, audio, or files exist
-   unless the user supplied them or the environment actually created them.
+   unless the user supplied them or the environment actually created them. If
+   those capabilities are unavailable, offer the equivalent content inline in
+   chat and clearly identify anything the teacher must create or attach.
+
+Do not stop after merely presenting a sequence. A turn ends only while waiting
+for explicit teacher confirmation, after delivering the requested inline
+content for an approved segment, or once the complete lesson passes the checks
+below.
 
 ## Existing-plan adaptation
 
-When the teacher supplies an existing lesson or deck:
+When the teacher supplies an existing lesson or teaching materials:
 
 1. Read the relevant sections before writing.
 2. Audit subject/stage wording, context continuity, learner product, evidence,
@@ -163,10 +185,11 @@ Do not call the classroom done until all are true:
 - learners acquire, process or compare evidence at least once;
 - learners produce at least one explanation, model, text, design, decision,
   performance or other inspectable artifact;
-- the central misconception is handled by an activity or quiz;
+- the central misconception is handled by an activity or diagnostic check;
 - assessment is isomorphic to the learning task and includes transfer;
 - no curriculum quote, textbook edition, source fact or external lookup result
   was fabricated.
 
 Close in one or two sentences: name the primary literacy dimensions and the
-performance task that now makes them visible. Do not replay the whole page list.
+performance task that now makes them visible. Do not replay the whole sequence
+outline.

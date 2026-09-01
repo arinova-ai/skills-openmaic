@@ -1,0 +1,141 @@
+--- upstream/skills/agent-runtime/teacher-style-clone/SKILL.md
++++ companion/skills/teacher-style-clone/SKILL.md
+@@ -4 +4 @@
+-description: 工作台会话挂载了教师课堂录像/讲义材料时使用。
++description: Use when the user supplies a teacher's recording, transcript, or teaching materials and wants a new topic taught with the evidenced instructional style.
+@@ -9,3 +9,3 @@
+-Extract how the teacher teaches, then teach the user's requested topic in that
+-style. The source material is evidence about delivery and presentation; it is
+-not automatically factual source material for the new course.
++Extract **how the teacher teaches**, then teach the requested topic in that
++style. Source material is evidence about delivery and presentation; it is not
++automatically factual authority for the new topic.
+@@ -13,3 +13,3 @@
+-The learner-facing name for this mode is 「名师风格」. Never expose the words
+-"clone" or "style transfer" to the learner. The result should simply feel like
+-a lesson taught in the evidenced style.
++Use the learner-facing name 「名师风格」. Do not describe the result as identity
++cloning. It should feel like instruction following an evidenced method, not an
++impersonation.
+@@ -17 +17 @@
+-## Step 1 — confirm every derivative is ready
++## 1. Confirm usable source material
+@@ -19,6 +19,4 @@
+-Call `list_materials` before drawing conclusions. Identify the attached source
+-materials and confirm extraction is complete. For recordings, verify that the
+-session exposes the transcript and keyframe derivatives. If extraction is idle,
+-call `extract_material` first; if it is pending or running, call
+-`wait_for_materials` and list again; if it failed, tell the user what failed instead
+-of inventing a profile from incomplete evidence.
++Identify every attached recording, transcript, handout, and visual sample.
++Confirm that each required derivative is actually readable. If extraction is
++pending, wait or ask the user to provide the transcript. If it failed, report
++the missing evidence instead of inventing a style profile.
+@@ -26 +24 @@
+-## Step 2 — read the whole transcript in order
++## 2. Read the full transcript in order
+@@ -28,3 +26,2 @@
+-Use `read_material` to page through every transcript derivative from offset 0
+-to the final page. Do not sample only the beginning. As you read, build a
+-compact style profile in your reasoning covering:
++Do not sample only the opening. Read from start to finish and build a compact
++profile covering:
+@@ -32 +29 @@
+-- openings and transitions;
++- openings, transitions, and closing habits;
+@@ -34,3 +31,3 @@
+-- concrete-versus-abstract example habits;
+-- pacing, recaps, rhetorical questions, pauses, and humor;
+-- what is said aloud versus emphasized visually.
++- concrete-versus-abstract example patterns;
++- pacing, recap, rhetorical questions, pauses, and humor;
++- what is spoken versus emphasized visually.
+@@ -38 +35 @@
+-Support each claim with short transcript evidence and its timestamp. Frequency
++Support each claim with a short excerpt or paraphrase and timestamp. Frequency
+@@ -41 +38 @@
+-## Step 3 — inspect keyframes for visual style
++## 3. Inspect visual evidence
+@@ -43,5 +40,4 @@
+-When the transcript contains a `[keyframe@mm:ss](mat_xxx)` marker, sample the
+-referenced frame with `read_material`. Use frames across the recording rather
+-than adjacent duplicates. Record visual evidence such as board-writing density,
+-slide composition, hierarchy, color use, teacher position, gestures, and the
+-relationship between speech and what remains on screen.
++Sample readable frames across the recording rather than adjacent duplicates.
++Record board-writing density, composition, hierarchy, color, teacher position,
++gesture, and the relationship between speech and persistent visual content.
++Do not infer visual style when no readable evidence exists.
+@@ -49 +45 @@
+-Do not infer visual style when the recording has no readable keyframes.
++## 4. Test style hypotheses
+@@ -51 +47,4 @@
+-## Step 4 — verify hypotheses with search
++Search the supplied material for proposed catchphrases and recurring sentence
++forms after the full read. Compare frequency and context. Search verifies a
++pattern; it never replaces reading in order. Drop unsupported or contradicted
++hypotheses.
+@@ -53,4 +52 @@
+-Use `search_material` to test specific transcript hypotheses after the full
+-read. Search catchphrases and recurring sentence forms, compare their frequency,
+-and revisit the surrounding snippets. Search verifies a proposed pattern; it
+-never replaces reading the transcript in order.
++## 5. Build the evidence-backed profile
+@@ -58 +54 @@
+-Treat unsupported or contradicted hypotheses as absent from the final profile.
++For every retained style feature record:
+@@ -60 +56,2 @@
+-## Step 5 — transfer the profile into generation inputs
++| Feature | Evidence and timestamp | Frequency | Transfer instruction |
++| --- | --- | --- | --- |
+@@ -62,6 +59,3 @@
+-Plan the course in the conversation, then `create_stage` and call
+-`generate_scene` once per page with an explicit brief. Put the complete,
+-evidence-backed style profile into each page's `brief` under a `## 讲课风格`
+-section, alongside any independently verified subject facts the requested
+-course needs. Include the load-bearing instructions: opening ritual, phrasing
+-habits, example pattern, pacing, interaction rhythm, and visual presentation.
++Cover the opening ritual, explanation pattern, examples, pacing, interaction,
++recap, spoken register, and visual hierarchy. Separate high-confidence repeated
++patterns from optional accents.
+@@ -69,5 +63 @@
+-For every page, put the relevant evidence and concrete style directions in
+-`generate_scene.materialFacts`. Examples: 「以复习上节课的问题开场」、「先用一个具体例子建立
+-直觉，再给出公式」、「页尾用已核验的口头禅式小结」。Do not merely
+-refer to a profile by name: the page generator only receives the text placed
+-in each page's `brief` and `materialFacts`.
++## 6. Transfer into the new lesson
+@@ -74,0 +65,10 @@
++Plan the requested topic independently for factual correctness. Show the user
++the outline and style profile, then wait for approval. For each approved lesson
++segment include the relevant style instructions directly: opening move,
++phrasing habit, example pattern, pacing, interaction rhythm, and visual brief.
++
++Do not merely refer to “the profile above” when handing material to another
++person or system; repeat the load-bearing instructions in the deliverable. If
++the environment cannot create audio or visuals, provide an inline script and
++visual direction without claiming that media exists.
++
+@@ -77,7 +77,15 @@
+-- Clone the evidenced style, not the teacher's identity. Never fabricate
+-  biography, opinions, endorsements, or personal claims.
+-- Keep the requested topic factually correct on its own terms. Do not import
+-  unrelated claims from the lecture just because they appear in the transcript.
+-- The source topic appears in the learner-facing course only when the user asks
+-  for that topic.
+-- Every style claim needs transcript or keyframe evidence. Omit guesses.
++- Transfer evidenced teaching style, not identity.
++- Never fabricate biography, opinions, endorsements, or personal claims.
++- Keep the requested topic factually correct on its own terms.
++- Do not import unrelated claims from the source lesson.
++- The original topic appears only when the user asks for it.
++- Every style claim needs transcript or visual evidence; omit guesses.
++- Avoid distinctive personal imitation when it would mislead listeners into
++  believing the real teacher authored, endorsed, or delivered the result.
++
++## Completion check
++
++The complete source scope was read, each style claim is evidenced, one-off
++phrases are not treated as habits, visual claims have visual support, the new
++topic is independently grounded, and unavailable production capabilities have
++honest inline fallbacks.

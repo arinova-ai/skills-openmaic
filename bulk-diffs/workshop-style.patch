@@ -1,0 +1,168 @@
+--- upstream/skills/agent-runtime/workshop-style/SKILL.md
++++ companion/skills/workshop-style/SKILL.md
+@@ -4 +4 @@
+-description: Hands-on workshop — the learner works through the course instead of watching it, with an exercise or a check every couple of pages, short slides that only set up the next task, guiding narration that asks more than it tells, and a closing page where the pieces come together in one small project. Use when the ask is a workshop, a bootcamp session, 「动手」「实操」「练中学」「边做边学」, or a skill the learner is meant to leave holding; also use when the user names this style. Not for a systematic explanatory course (that is `lecture-style`) and not for occupational procedure training with tools and safety gates (that is `vocational`).
++description: Hands-on workshop design—the learner works instead of watching, with an exercise or check every few segments, brief explanations that set up the next task, question-first facilitation, and a closing project that combines the pieces. Use for workshops, bootcamps, 「动手」「实操」「练中学」「边做边学」, or a skill the learner should leave able to perform. Not for systematic exposition or occupational procedures with equipment and safety gates.
+@@ -9,4 +9,3 @@
+-You are designing a **workshop**. Nothing is explained for longer than it takes
+-to set up the next thing the learner does, and every idea is followed
+-immediately by a page where they try it. The learner leaves having built
+-something, not having been told about it.
++Design a **workshop**. Explain only enough to set up the next thing the learner
++does. Every idea is followed immediately by practice, and the learner leaves
++having made or performed something—not merely having heard about it.
+@@ -14,4 +12,0 @@
+-`stage-design` still governs how the stage is built — outline, roster, one page
+-per `generate_scene`, audio before done. This skill governs what the stage
+-contains and how it sounds.
+-
+@@ -20,18 +15,10 @@
+-- **Scene 1 is a `slide`, and it is short**: what the learner will have made by
+-  the end, and the first thing they are about to try. No agenda, no history of
+-  the field.
+-- **Every concept is followed at once by a hands-on page.** The rhythm is
+-  concept → do it, concept → do it: roughly **one `interactive` or `quiz` page
+-  for every two pages** in the course. If two explanatory pages ever sit next to
+-  each other, one of them is unnecessary.
+-- **`interactive` pages are the exercises.** Each isolates one thing to build,
+-  vary or trace. Consecutive interactive pages must not reuse the same
+-  `widgetType` — as the learner moves from trying to predicting to applying, the
+-  modality moves with them.
+-- **`quiz` pages are quick self-checks**, not exams — placed right after a
+-  hands-on page to make the learner state what they just observed. Short, two or
+-  three questions.
+-- **The last page is a small integrating project**: one `interactive` page whose
+-  task needs several of the workshop's pieces at once, with the earlier
+-  exercises as its parts. Not a summary slide. This is the page the learner
+-  screenshots afterwards.
++- Open briefly with what the learner will have made by the end and the first
++  action to take. Omit the agenda and field history.
++- Use the rhythm concept → do it, concept → do it. Roughly one hands-on
++  exercise or diagnostic follows every one or two explanatory segments.
++- Give each exercise one thing to build, vary, trace, or decide. Vary the
++  activity format as the learner moves from trying to predicting to applying.
++- Use quick self-checks after practice. Two or three questions are enough; they
++  should make the learner state what the exercise just revealed.
++- Close with a small integrating project that needs several earlier pieces at
++  once. Do not close with a summary.
+@@ -39 +26 @@
+-## Slides are task briefs
++## Explanations are task briefs
+@@ -41,4 +28,3 @@
+-A slide in a workshop exists to make the next exercise possible. Keep it to
+-**two or three `keyPoints`** — the rule, the shape, the one gotcha — and put
+-everything else in the exercise. A workshop slide that could be read on its own
+-as a lesson is too long: cut it and let the interactive page teach.
++Keep an explanatory segment to two or three points: the rule, the shape, and
++the one gotcha. If it could stand alone as a complete lecture, shorten it and
++let the exercise teach.
+@@ -46 +32 @@
+-## widgetOutline
++Every exercise specifies:
+@@ -48,4 +34,6 @@
+-Every `interactive` page must carry a populated `widgetOutline`, always
+-including `concept` — the one thing this exercise is about. An interactive page
+-with an empty widget outline degrades into a generic page, which in this style
+-takes the course's whole point with it.
++- the concept and concrete task;
++- the starting materials, inputs, or constraints;
++- what the learner must produce or change;
++- what to observe before receiving feedback;
++- a likely mistake and a recoverable retry path;
++- the success evidence and the next step.
+@@ -53,5 +41,4 @@
+-- `simulation`: `concept`, `keyVariables` (the actual things the learner moves)
+-- `code`: `concept`, `language`
+-- `diagram`: `concept`, `diagramType`, `nodes`
+-- `game`: `concept`, `gameType`, `challenge`, `playerControls`
+-- `visualization3d`: `concept`, `visualizationType`, `objects`, `interactions`
++If a runnable or visual medium is unavailable, offer an inline equivalent such
++as a worked fragment to modify, a decision table, an ASCII diagram, or a
++turn-by-turn simulation. State the limitation instead of pretending the medium
++exists.
+@@ -59,3 +46 @@
+-`keyPoints` on an interactive page describe **the task and what doing it
+-reveals** — what the learner changes, what they should notice, what conclusion
+-that forces. Not facts to be read aloud.
++## Facilitation voice
+@@ -63 +48,6 @@
+-## Narration is facilitation
++- Use short turns—one or two sentences while a task is waiting.
++- Ask more than you tell: prompt a prediction, hand over the work, and stop.
++- Explain the result only after the learner has attempted or observed it.
++- A lead facilitator sets the task; an optional co-facilitator can try a common
++  wrong move or ask what the group is wondering.
++- Tie encouragement to specific evidence after an attempt, not generic praise.
+@@ -65 +55 @@
+-This is where the style is heard, so it is the part to get right.
++## Conversation workflow
+@@ -67,14 +57,9 @@
+-- Lines are **short — one or two sentences**. Nobody in a workshop listens to a
+-  paragraph while a task is waiting on screen.
+-- **Ask more than you tell.** Most narration lines on a hands-on page are
+-  questions or instructions: 「先把这个值调到最大，看看会发生什么」「你觉得下一步
+-  会往哪边偏？」「试完再往下看。」 Statements are reserved for the moment after
+-  the learner has already seen the effect.
+-- **Hand the work over and get out of the way.** Say what to do, then stop. A
+-  narration that explains the answer before the exercise runs has cancelled the
+-  exercise.
+-- **Two voices, in dialogue.** The teacher sets the task; the assistant
+-  co-facilitator reacts, tries the wrong thing on the learner's behalf, or asks
+-  what everybody is wondering. Alternating short turns, not monologue.
+-- Encouragement is fine and belongs after an attempt, tied to something
+-  specific — 「注意你刚才那一下，曲线立刻翻过去了」 rather than 「太棒了」.
++1. Confirm the skill, learner level, duration, tools actually available, and
++   final project.
++2. Propose the complete concept–exercise cadence and wait for approval.
++3. Deliver one approved task at a time with an observable success condition.
++4. Wait for the learner's attempt when the workshop is being run live. Do not
++   answer the exercise on their behalf.
++5. Give feedback, a retry path, and only then the next concept.
++6. End with the integrating project and a short reflection on what the learner
++   can now do independently.
+@@ -82 +67 @@
+-## The roster
++## Naming
+@@ -84,29 +69 @@
+-The runtime allows **exactly one teacher**, so the dialogic pair is a lead
+-teacher plus a co-facilitator `assistant` — not two teachers. Write the roster
+-with `set_roster`: a hands-on practitioner who talks in tasks, an assistant
+-who is warm, quick and unafraid to be wrong out loud, and keep the roster small
+-enough that turns stay readable. Put 「short turns, question-first,
+-encouraging」 in the personas and a lively pace in `voiceDesign.delivery`.
+-
+-## Carrying the style into the generators
+-
+-There is no outline generator: you plan the course in the conversation, then
+-call `create_stage` and one `generate_scene` per page with an explicit brief.
+-Page content and narration are written by separate calls that see only the
+-page's brief, the page content and the roster. So the style has to be carried
+-there explicitly:
+-
+-- put the concept → exercise cadence and the closing project into each page's
+-  `generate_scene` `brief`;
+-- put the two-voice facilitation manner into each persona of `set_roster`;
+-- pass the narration directive for each page in `generate_scene.materialFacts`
+-  — e.g. 「旁白为引导式短句，一到两句一条，提问多于陈述」「本页先让学员动手，
+-  结论留到操作之后」. Naming this skill in a prompt does nothing; only the text
+-  you place in those fields is seen.
+-
+-## Scene naming
+-
+-Titles name what the learner does, in the imperative.
+-
+-- Good: 「把这段循环改成能跑的」「调参数，找出它崩掉的那一刻」「用今天的三块拼一个
+-  能用的小工具」
++- Good: 「把这段循环改成能跑的」「调参数，找出它崩掉的那一刻」「用今天的三块拼一个能用的小工具」
+@@ -115 +72 @@
+-## If the request is not a workshop
++## Boundary and completion check
+@@ -117,4 +74,4 @@
+-If the subject has nothing to practise — a historical narrative, an appreciation
+-course, a body of knowledge the learner only needs to understand — say so in one
+-sentence and use `lecture-style` instead. Bolting exercises onto a topic with no
+-task produces busywork, which learners recognize faster than anything else.
++If the subject has no meaningful practice, use an explanatory design instead
++of inventing busywork. A workshop is complete only when practice is frequent,
++every task has a retry path, facilitation does not reveal answers early, and the
++closing project integrates earlier work.

@@ -1,0 +1,113 @@
+--- upstream/skills/agent-runtime/deep-interactive/SKILL.md
++++ companion/skills/deep-interactive/SKILL.md
+@@ -4 +4 @@
+-description: Deep Interactive courses. Plans the course so the learner manipulates something on most pages — simulations, diagrams they explore, code they run, games, 3D scenes — with slides reserved for the opening frame and the closing consolidation. Use when the topic has a mechanism, a variable to vary, a process to trace, or a structure to inspect.
++description: Deep Interactive learning design. Plans a lesson so the learner manipulates something in most segments—simulations, diagrams, code, games, or spatial models—with short framing and consolidation around the hands-on work. Use when the topic has a mechanism, a variable to vary, a process to trace, or a structure to inspect.
+@@ -7 +7 @@
+-# Deep Interactive course design
++# Deep Interactive learning design
+@@ -9,2 +9,3 @@
+-Default to **doing**, not reading. A page earns the `slide` type only when the
+-learner has nothing to manipulate on it.
++Default to **doing**, not reading. An explanatory segment earns its place only
++when it makes the next manipulation possible or consolidates what the learner
++has already observed.
+@@ -14,9 +15,9 @@
+-- Scene 1 is a `slide`: it frames the question the course answers and tells the
+-  learner what they are about to play with. One page, no more.
+-- The body is `interactive`. Each body scene isolates **one** mechanism, one
+-  variable, one structure — so the learner can change it and watch the result.
+-- The last scene is a `slide` or a `quiz` that consolidates what the
+-  manipulation showed.
+-- Consecutive interactive scenes must not use the same `widgetType`. Two
+-  simulations in a row is a design failure; vary the modality as the concept
+-  moves from "watch it" to "trace it" to "predict it".
++- Open once: frame the question and name what the learner is about to
++  manipulate. Do not begin with definitions or a table of contents.
++- Make the body hands-on. Each activity isolates one mechanism, variable, or
++  structure so the learner can change it and observe the result.
++- Close with a diagnostic or short explanation that makes the learner state
++  what the manipulation established and transfer it to a changed case.
++- Vary the modality as the concept moves from “watch it” to “trace it” to
++  “predict it.” Repeating the same interaction format without a learning reason
++  is a design failure.
+@@ -24 +25 @@
+-## Choosing a widget type
++## Choose an activity format
+@@ -26,7 +27,7 @@
+-| widgetType        | Use when the learner should…                                     |
+-| ----------------- | ---------------------------------------------------------------- |
+-| `simulation`      | vary parameters and watch a system respond in real time          |
+-| `diagram`         | explore structure, flow or hierarchy by expanding and following  |
+-| `code`            | read, modify and run a short program that embodies the idea      |
+-| `game`            | make repeated decisions under a rule set and see the score move  |
+-| `visualization3d` | inspect a spatial object or scene from angles a slide cannot show |
++| Format | Use when the learner should… |
++| --- | --- |
++| simulation | vary parameters and watch a system respond |
++| explorable diagram | follow structure, flow, or hierarchy |
++| code experiment | read, modify, and run a short program that embodies the idea |
++| rule-bound game | make repeated decisions and see consequences accumulate |
++| spatial model | inspect an object or process from several viewpoints |
+@@ -34 +35,4 @@
+-## widgetOutline
++If the conversation cannot provide the intended medium, do not claim that it
++exists. Offer the same mechanism inline using a small table, successive states,
++pseudocode, an ASCII diagram, or a turn-by-turn decision exercise, and say what
++the learner should change and observe.
+@@ -36,3 +40 @@
+-Every `interactive` scene must carry a `widgetOutline` populated for its type —
+-an interactive scene with an empty widget outline degrades to a generic page and
+-defeats the whole point.
++## Write a complete activity brief
+@@ -40,5 +42 @@
+-- `simulation`: `concept`, `keyVariables` (the actual sliders/inputs)
+-- `diagram`: `diagramType`, `nodes` (with `label`, and `parentId` for hierarchy)
+-- `code`: `language`, `concept`
+-- `game`: `gameType`, `challenge`, `playerControls`
+-- `visualization3d`: `visualizationType`, `objects`, `interactions`
++Every hands-on activity states:
+@@ -46 +44,7 @@
+-## Scene naming
++- the one concept or mechanism under inspection;
++- the controls, choices, or inputs the learner can vary;
++- the initial prediction the learner must make;
++- the observable result and what counts as evidence;
++- the misconception or boundary case the activity exposes;
++- the question that turns observation into an explanation;
++- the handoff to the next activity.
+@@ -48 +52,4 @@
+-Titles name what the learner does or discovers, not the topic heading.
++For a simulation, name the actual variables. For a diagram, name the nodes and
++relationships. For code, name the language and the behavior to change. For a
++game, state the rule, decision, feedback, and win condition. For a spatial
++model, state the objects, viewpoints, and inspections.
+@@ -49,0 +57,15 @@
++## Conversation workflow
++
++1. Settle the learner, outcome, available time, and mechanism to explore.
++2. Propose the full activity sequence and wait for explicit approval.
++3. Develop each approved activity in order, keeping one mechanism per activity.
++4. Ask for a prediction before revealing a result or explanation.
++5. After each manipulation, require the learner to name the observation and
++   the conclusion it supports.
++6. End with a changed condition that tests whether the learner can transfer the
++   mechanism rather than repeat wording.
++
++## Naming
++
++Titles name what the learner does or discovers.
++
+@@ -53 +75 @@
+-## keyPoints
++## Completion check
+@@ -55,3 +77,6 @@
+-For an interactive scene, `keyPoints` describe the **interaction and what it
+-reveals** — what the learner changes, what they observe, what conclusion the
+-observation forces. Not a bullet list of facts to be read out.
++- Hands-on work is the clear majority of the lesson.
++- Each activity has a populated brief and only one load-bearing mechanism.
++- Consecutive activities vary modality or justify why repetition is necessary.
++- Learners predict, manipulate, observe, explain, and transfer.
++- No result is revealed before the learner has a chance to inspect it.
++- Any unavailable medium has an honest inline fallback.

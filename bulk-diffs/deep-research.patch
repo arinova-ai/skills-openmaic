@@ -1,0 +1,254 @@
+--- upstream/skills/agent-runtime/deep-research/SKILL.md
++++ companion/skills/deep-research/SKILL.md
+@@ -4 +4 @@
+-description: Courses whose content rests on current, external or real-world facts that must be verified against live sources before being taught — recent events, market or policy data, product and version specifics, scientific developments, named cases. Researches the topic first, keeps a claim-to-source ledger, and grounds the outline and every page in what was actually fetched. Use when the request depends on up-to-date or externally checkable facts; not for timeless textbook topics that stand on established knowledge alone.
++description: Learning experiences whose content rests on current, external, or real-world facts that must be verified against live sources before being taught—recent events, market or policy data, product and version specifics, scientific developments, and named cases. Researches first, keeps a claim-to-source ledger, and grounds every lesson segment in fetched or user-supplied evidence. Use when the request depends on up-to-date or externally checkable facts, not timeless textbook knowledge.
+@@ -7 +7 @@
+-# Deep Research course design
++# Deep Research learning design
+@@ -9,4 +9,4 @@
+-You are designing a course whose content rests on facts you must **verify,
+-not recall**. Research first, outline second, generate third. A number, date,
+-name or finding enters the course only because you saw it in a source you
+-fetched or in the user's own material — and you can say which one.
++Design instruction whose factual content is **verified, not recalled**.
++Research first, outline second, teach third. A number, date, name, quotation, or
++finding enters the lesson only because it appears in a source you actually read
++or in material the user supplied—and you can identify that source.
+@@ -14 +14 @@
+-## Structure
++## Learning shape
+@@ -16,9 +16,8 @@
+-- Open with one `slide`: it frames the research question and previews what
+-  kind of evidence the course will examine. Not a definitions or
+-  history-of-the-field page.
+-- The body carries the findings, in whatever scene types fit: slides for
+-  sourced exposition, `interactive` for evidence the learner can inspect,
+-  `quiz` for checking whether the learner can tell a supported claim from an
+-  unsupported one.
+-- Close on what the evidence establishes and where it runs out — not on a
+-  generic summary.
++- Open by framing the research question and the kinds of evidence the learner
++  will examine.
++- Organize the body around findings, sources, conflicts, and limits rather than
++  generic topic headings.
++- Let learners inspect evidence, compare interpretations, and distinguish
++  supported claims from unsupported ones.
++- Close on what the evidence establishes, where it runs out, and what would
++  change the conclusion.
+@@ -26 +25 @@
+-## Step 1 — Start from what the session already has
++## 1. Start from user material
+@@ -28,6 +27,3 @@
+-Call `list_materials` before any search. Materials the user attached —
+-documents, links, data, recordings — are the primary authority on their own
+-subject; web research supplements them, it does not replace them. If a
+-derivative is still extracting, `extract_material` or `wait_for_materials` as
+-in any other course. URLs the user pasted in chat can be fetched directly with
+-`fetch_url`.
++Inspect every relevant document, link, dataset, transcript, or excerpt the user
++has supplied before searching elsewhere. User material is primary authority on
++the user's own data, product, or case; outside research supplements it.
+@@ -35 +31,2 @@
+-## Step 2 — Split the topic into facets
++If the environment cannot read an attachment, say exactly what is unavailable
++and ask for a readable excerpt or link. Do not infer its contents from a title.
+@@ -37,6 +34 @@
+-Break the request into 2–4 searchable facets — distinct questions the course
+-must answer with evidence. Typical facets: current state or latest
+-developments; authoritative figures and baseline data; concrete cases and
+-incidents; risks, controversies or open questions. Write the facet list down
+-before searching. Not every facet needs a search: a facet that is stable
+-textbook knowledge is skipped and taught as such.
++## 2. Split the topic into facets
+@@ -44 +36,4 @@
+-## Step 3 — Search with a budget
++Write two to four distinct questions the lesson must answer with evidence.
++Typical facets are current state, authoritative baseline data, concrete cases,
++risks, controversies, and open questions. Mark stable textbook facets so they
++are taught as established knowledge without performative searching.
+@@ -46,9 +41 @@
+-- At most **8 `web_search` calls for the whole session**, planned across the
+-  facets. One precise query beats several vague ones; write queries in the
+-  language of the course.
+-- The session shares one run with planning, `set_roster` and
+-  every page's generation, and every extra call is latency the user watches.
+-  Research is one slice of the run, not the main act. If the run gets long,
+-  cut facets — never generation.
+-- Read each result before searching again: the next query should be shaped by
+-  what the last one returned, not a rewording of it.
++## 3. Search with a budget
+@@ -56 +43,6 @@
+-## Step 4 — Pick sources, fetch them
++- Plan no more than about eight precise searches for the whole request.
++- Search in the language best suited to the source and question.
++- Read each result before forming the next query; do not issue paraphrased
++  duplicates.
++- Reduce facet scope when time is limited. Never replace missing evidence with
++  memory just to keep a broad outline.
+@@ -58,13 +50,2 @@
+-- From the search results, pick at most **6 URLs in total** across all facets.
+-  Prefer primary and authoritative origins — official bodies, named
+-  institutions, the report or dataset itself — and for time-sensitive claims
+-  prefer the most recent. Skip mirrors and aggregators repackaging the same
+-  story: fetch one origin, not three copies of it.
+-- `fetch_url` accepts only URLs that appeared in the user's messages or in
+-  this session's `web_search` results. Never assemble or recall a URL from
+-  memory — if the source you want did not surface, refine the search instead
+-  of guessing an address. A URL that never surfaced does not exist for this
+-  course.
+-- `fetch_url` ingests the page as a session material and returns a
+-  `materialId` plus a first-page preview. That `materialId` is what the ledger
+-  cites.
++If web access is unavailable or repeatedly fails, continue only from user
++materials and stable knowledge, clearly marking what could not be verified.
+@@ -72 +53 @@
+-## Step 5 — Read deep, keep the ledger
++## 4. Select and read sources
+@@ -74,7 +55,4 @@
+-- Page through each fetched material with `read_material` — at least far
+-  enough to verify every claim you plan to take from it. Use `search_material`
+-  to locate a specific figure or name inside it rather than re-reading blind.
+-- Maintain a running ledger: **claim → source** (`materialId` or URL, plus the
+-  source's name and publication date when visible). Only ledgered claims may
+-  enter the course as researched facts. Record the date: a stale figure
+-  presented as current is a factual error, not a styling choice.
++Choose at most about six load-bearing sources across all facets. Prefer primary
++and authoritative origins: the official body, original report, dataset, paper,
++or named institution. Prefer current versions for time-sensitive claims and
++avoid mirrors that repeat one origin.
+@@ -82 +60,3 @@
+-## Step 6 — Cross-check conflicts
++Open only user-provided links or links surfaced by actual search. Never invent
++or reconstruct a URL from memory. Read far enough to verify every claim you
++intend to use; a result snippet or title is not evidence.
+@@ -84,9 +64 @@
+-- Prefer primary over secondary sources, recent over outdated for
+-  time-sensitive claims, and domain authorities over general media. Two
+-  independent origins outweigh one story republished ten times.
+-- If a conflict survives — genuinely contested figures, diverging official
+-  accounts — teach the range or the disagreement with both attributions. Do
+-  not silently pick a side, and never average conflicting numbers into an
+-  invented middle.
+-- A load-bearing claim with a single source is single-sourced: soften the
+-  wording, attribute it explicitly, or drop it.
++## 5. Keep a claim ledger
+@@ -94 +66 @@
+-## Step 7 — Know when research is done
++Maintain a working ledger with these fields:
+@@ -96 +68,2 @@
+-Research is complete when both hold:
++| Claim | Source | Publication/update date | Exact support | Scope or caveat |
++| --- | --- | --- | --- | --- |
+@@ -98,3 +71,3 @@
+-- every facet the outline will lean on has at least one ledgered source, or is
+-  marked as stable knowledge needing none;
+-- every number, date and name the course will state is in the ledger.
++Only ledgered externally checkable claims may be presented as researched fact.
++Record the date and version when visible. Keep quotations short and necessary;
++prefer paraphrase with attribution.
+@@ -102,2 +75 @@
+-Then stop. Polishing searches after coverage is reached steal budget from
+-generation.
++## 6. Resolve conflicts honestly
+@@ -105 +77,10 @@
+-## Step 8 — Ground the outline
++- Prefer primary over secondary sources, current over stale material for
++  changing facts, and domain authorities over general summaries.
++- Two independent origins outweigh one story republished many times.
++- If a genuine conflict remains, teach the range or disagreement with both
++  attributions. Never average incompatible figures into an invented middle.
++- Treat a load-bearing single-source claim as single-sourced: attribute and
++  soften it, corroborate it, or omit it.
++- When user material conflicts with outside context, preserve the user's
++  material for facts about their own case and surface the discrepancy instead
++  of silently overriding it.
+@@ -107,9 +88 @@
+-There is no outline generator: plan the outline in the conversation, then
+-`create_stage` and one `generate_scene` per page with an explicit brief. The
+-page generator sees each page's `brief` and nothing you remember. Write the
+-research into the briefs: the facets, the ledgered claims with their
+-attribution (source name + date), the conflicts and how they were resolved,
+-and the gaps you chose not to fill. Anything you want to shape the course must
+-live in this text. Structure the course around the researched questions — what
+-was found, what changed, what is contested — not around generic topic
+-headings.
++## 7. Stop when coverage is sufficient
+@@ -117 +90,4 @@
+-## Step 9 — Ground every page
++Research is complete when each load-bearing facet has a ledgered source or is
++marked stable knowledge, and every number, date, name, quotation, and current
++claim in the proposed lesson appears in the ledger. Stop searching once those
++conditions hold.
+@@ -119,8 +95 @@
+-- When generating a scene, pass that page's sourced facts in
+-  `generate_scene.materialFacts` — quoted concretely (figures, names,
+-  findings) with their attribution. The page generator only receives what you
+-  hand it; which fact belongs on which page is your choice.
+-- Inside page content, cite naturally — the institution, the report, the year.
+-  Do not dump raw URLs at the learner.
+-- Quiz distractors and interactive scenarios draw on ledgered facts too: a
+-  quiz that tests a number nobody verified teaches noise.
++## 8. Ground the lesson
+@@ -128 +97,2 @@
+-## Scene naming
++Show the user a complete outline and wait for approval. For every approved
++segment include:
+@@ -130 +100,6 @@
+-Titles name the finding or the question, not the folder.
++- the research facet and learning purpose;
++- the exact ledgered claim and attribution;
++- the evidence the learner will inspect;
++- any conflict, uncertainty, or omitted gap;
++- the question or activity that turns the evidence into understanding;
++- the transition to the next finding.
+@@ -132,2 +107,3 @@
+-- Good: 「五年里成本降了多少？」「数据从哪里来」「两种口径差在哪」
+-- Bad: 「行业概述」「研究背景」「本课总结」
++Use natural source names, dates, and direct links or citations where the output
++format permits. Do not dump unsupported URLs. Diagnostics and scenarios must be
++based on verified facts too.
+@@ -135 +111,3 @@
+-## Hard rules
++If a visual, interactive, or file-producing capability is unavailable, provide
++the relevant evidence table, source comparison, or activity inline and state
++what the learner must do manually.
+@@ -137,14 +115 @@
+-- Never invent sources, citations, URLs or publication dates. A claim with no
+-  ledger entry is taught as stable knowledge with honest wording, or not
+-  taught at all.
+-- If `web_search` is not registered in this deployment, or searches keep
+-  failing: say so in chat, build from the user's materials and stable
+-  knowledge, and mark clearly what could not be verified. Never present memory
+-  as research.
+-- Time-sensitive claims without a source do not enter the course. Timeless
+-  knowledge needs no source — do not spend budget verifying what a textbook
+-  already settles.
+-- When user material and web findings conflict: on facts about the user's own
+-  subject (their data, their product, their case) the user's material wins. On
+-  external context, the better-verified recent source wins — and you surface
+-  the discrepancy to the user in chat instead of overriding silently.
++## When the request is not research-driven
+@@ -152 +117,7 @@
+-## If the requirement is not research-driven
++If the request is timeless textbook knowledge with no external fact to verify
++— for example, a mathematics derivation, a classic text, or an established
++skill — say in one sentence that live research is unnecessary, then use an
++ordinary lesson-design workflow. Clarify the learner, outcome, prerequisites,
++sequence, practice, and checks for understanding without creating a search
++budget or claim ledger. Do not stage research theatre for a topic that needs no
++research.
+@@ -154,4 +125,9 @@
+-If the topic is timeless textbook knowledge with no external fact to verify —
+-a maths derivation, a classic text, an established skill — say so in one
+-sentence in your chat message and plan an ordinary course instead. Do not run
+-research theatre on a topic that needs no research.
++## Naming and hard rules
++
++- Good: 「五年里成本降了多少？」「数据从哪里来」「两种口径差在哪」
++- Bad: 「行业概述」「研究背景」「本课总结」
++
++Never invent a source, citation, URL, publication date, or research result.
++“No reliable evidence found” means inconclusive, not false. Timeless knowledge
++needs no citation theatre; time-sensitive claims without sources do not enter
++the lesson.

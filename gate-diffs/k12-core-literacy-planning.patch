@@ -1,15 +1,9 @@
 --- upstream/skills/agent-runtime/k12-core-literacy-planning/SKILL.md
 +++ companion/skills/k12-core-literacy-planning/SKILL.md
-@@ -1,47 +1,38 @@
- ---
- name: k12-core-literacy-planning
- title: "核心素养教学设计"
+@@ -4 +4 @@
 -description: "Chinese K-12 core-literacy course design for a single OpenMAIC classroom. Use when a teacher asks for 中小学课程、核心素养、素养导向、2022 课标、真实情境、任务群、表现性评价, or wants a grade-and-subject lesson designed around authentic tasks rather than content delivery. Covers Chinese, mathematics, languages, science, humanities, technology, arts, PE and labor education across primary, junior-high and senior-high stages."
 +description: "Chinese K-12 core-literacy lesson design. Use when a teacher asks for 中小学课程、核心素养、素养导向、2022 课标、真实情境、任务群、表现性评价, or wants a grade-and-subject lesson designed around authentic tasks rather than content delivery. Covers Chinese, mathematics, languages, science, humanities, technology, arts, PE and labor education across primary, junior-high and senior-high stages."
- ---
- 
- # K-12 core-literacy classroom design
- 
+@@ -9,5 +9,5 @@
 -Design or reshape **one persisted OpenMAIC stage** around the Chinese curriculum
 -standards' core-literacy model. The deliverable is the classroom itself: pages,
 -roles, learner activity, assessment evidence and narration written into the
@@ -20,11 +14,7 @@
 +the conversation: learning contract, sequence, teacher and learner actions,
 +assessment evidence, scaffolds, and transfer task. Use another format only when
 +the teacher explicitly requests it.
- 
- The invariant is:
- 
- **authentic context → performance task → learning activity → observable evidence → transfer**
- 
+@@ -19,4 +19,3 @@
 -`stage-design` still governs the persistence sequence for a new stage. This
 -skill governs the pedagogy and the information carried in every page brief. If
 -the stage already has pages, edit it surgically under the `pro-editing` rules;
@@ -32,53 +22,49 @@
 +This skill governs the pedagogy and the information carried in every learning
 +segment. If the teacher provides an existing plan, edit that plan surgically
 +and identify what changed instead of silently replacing it with a new lesson.
- 
- ## Ground the lesson before planning
- 
+@@ -26,2 +25,2 @@
 -Before proposing pages, determine the subject and school stage. Then use the
 -native `read` tool to load both:
 +Before proposing the learning sequence, determine the subject and school stage.
++Then consult both bundled references:
+@@ -35 +34,2 @@
+-   - IT / arts / PE and health / labor: the matching section in `core-literacy.md`
++   - IT / arts / PE and health / labor: the matching section in
++     [`references/core-literacy.md`](references/core-literacy.md)
+@@ -37 +37 @@
+-Loading the relevant reference is mandatory. Do not rely on a remembered
++Consulting the relevant reference is mandatory. Do not rely on a remembered
+@@ -40,0 +41,6 @@
 +If the teacher supplies a curriculum-standard excerpt, textbook scope, or local
 +school requirement, treat it as the grounding source and distinguish quoted
-+language from your summary. If no current standard text is available, use
-+general core-literacy language and explicitly avoid claiming exact official
-+dimension names, clause numbers, or wording from memory.
- 
--1. [`references/core-literacy.md`](references/core-literacy.md), always;
--2. exactly one matching subject guide:
--   - Chinese / languages: [`references/subjects/languages.md`](references/subjects/languages.md)
--   - mathematics: [`references/subjects/mathematics.md`](references/subjects/mathematics.md)
--   - science / physics / chemistry / biology: [`references/subjects/science.md`](references/subjects/science.md)
--   - history / geography / morality and law / politics: [`references/subjects/humanities.md`](references/subjects/humanities.md)
--   - IT / arts / PE and health / labor: the matching section in `core-literacy.md`
--
--Loading the relevant reference is mandatory. Do not rely on a remembered
--dimension name when the reference distinguishes compulsory and senior-high
--wording.
--
- If grade or topic is genuinely unknown, ask at most two load-bearing questions
++language from your summary. Use the bundled reference for the dimension names
++and planning model, while treating a supplied current standard as authoritative
++where it differs. Never claim an exact clause number or quotation from memory.
++
+@@ -42,3 +48,3 @@
 -in one `ask_user` call. Default the rest to 45 minutes, general curriculum
 -quality expectations and UDL support. Never ask again for information already
 -present in the request or attached material.
 +in one concise message and wait for the answer. Default the rest to 45 minutes,
 +general curriculum quality expectations, and UDL support. Never ask again for
 +information already present in the request or supplied material.
- 
- If the teacher names a textbook edition, standard clause or supplied material,
- align to it. Otherwise use general curriculum wording and say the lesson is not
-@@ -71,84 +62,81 @@
- 
- ## Plan pages around learner work
- 
+@@ -54 +60 @@
+-the contract in this form before the page list:
++the contract in this form before the sequence outline:
+@@ -69 +75 @@
+-A story discarded after page 1 is decoration, not context. A normal exercise
++A story discarded after the opening segment is decoration, not context. A normal exercise
+@@ -72 +78 @@
+-## Plan pages around learner work
++## Plan learning segments around learner work
+@@ -74,3 +80,3 @@
 -Default to 6–10 pages for a 45-minute lesson, but do not treat that range as a
 -hard page cap. Each proposed page includes `title`, `type`, `brief`, the learner
 -action, the evidence collected and its link to adjacent pages.
 +Default to 6–10 learning segments for a 45-minute lesson, but do not treat that
 +range as a hard cap. Each proposed segment includes a title, activity format,
 +brief, learner action, evidence collected, and link to adjacent segments.
- 
- A useful default arc is:
- 
+@@ -80,5 +86,5 @@
 -1. `slide`: the authentic situation, the unresolved question and the final task;
 -2. `interactive` or evidence page: observe, manipulate, read, map or collect evidence;
 -3. `interactive` or `slide`: compare, classify, model, closely read or reason;
@@ -89,45 +75,41 @@
 +3. reasoning activity: compare, classify, model, closely read or reason;
 +4. diagnostic check: expose the most likely misconception and require a reason;
 +5. performance task: produce the main explanation, model,
-    decision, text, design or performance;
+@@ -86,3 +92,3 @@
 -6. `slide`: success criteria, scaffold, worked fragment or peer-review method;
 -7. `quiz` or task page: transfer into a new version of the same context;
 -8. optional closing `slide`: consolidate the method learners established and
 +6. support: success criteria, scaffold, worked fragment or peer-review method;
 +7. transfer check: apply the same reasoning in a changed version of the context;
 +8. optional close: consolidate the method learners established and
-    name what remains open.
- 
- Choose the page type by the learning action:
- 
+@@ -91 +97 @@
+-Choose the page type by the learning action:
++Choose the activity format by the learning action:
+@@ -93,5 +99,5 @@
 -- `slide` frames a problem, carries source material or evidence, or consolidates
 -  a method. It must not become a run of teacher exposition.
 -- `interactive` is for changing a variable, tracing a structure, running code,
+-  repeated rule-bound decisions or spatial inspection. One interactive page
+-  carries one mechanism and says what changes, what is observed and what the
 +- A short explanation frames a problem, carries source material or evidence,
 +  or consolidates a method. It must not become a run of teacher exposition.
-+- An interactive activity is for changing a variable, tracing a structure, running code,
-   repeated rule-bound decisions or spatial inspection. One interactive page
-   carries one mechanism and says what changes, what is observed and what the
-   observation establishes.
++- A hands-on or interactive activity is for changing a variable, tracing a
++  structure, running code, repeated rule-bound decisions or spatial inspection.
++  One activity carries one mechanism and says what changes, what is observed and what the
+@@ -99 +105 @@
 -- `quiz` diagnoses a misconception, compares explanations or checks transfer.
 +- A diagnostic check exposes a misconception, compares explanations, or checks transfer.
-   Distractors come from real misconceptions and feedback teaches, not merely
-   marks wrong.
+@@ -102 +108 @@
 -- `pbl` is for a genuinely multi-step inquiry, artifact or public performance.
 +- A project task is for a genuinely multi-step inquiry, artifact, or public performance.
-   Do not wrap one simple exercise in PBL machinery.
- 
- Titles name what learners discover or make: 「拖动倾角，看射程怎么变」,
- 「两份史料为什么说得不一样」, 「给校园开放日改写导览词」. Do not use
- 「概念介绍」「知识讲解」「案例分析」「课堂总结」.
- 
+@@ -109 +115 @@
 -## New-stage execution
 +## Conversation workflow
- 
+@@ -111 +117,2 @@
 -After the teacher approves the page plan through `ask_user`:
 +After showing the complete learning sequence, wait for the teacher's explicit
 +approval or revisions. Then:
- 
+@@ -113,9 +120,7 @@
 -1. `create_stage` with the settled title and the series `folderId` when relevant.
 -2. `set_roster` before any page. Use exactly one teacher and at least two agents.
 -   The teacher persona embodies the subject method; another role surfaces a
@@ -144,42 +126,42 @@
 +   misconception, ask for evidence, or compare strategies. Keep language and
 +   cognitive demand appropriate to the grade.
 +3. Develop every approved learning segment in order. Each segment must say:
-    - the target literacy dimension and visible learner action;
-    - what learners see, manipulate, read, discuss or produce;
-    - the evidence or source they must use;
-    - the likely misconception and the scaffold that addresses it;
-    - the assessment evidence collected on this page;
-    - the grade-appropriate register and the handoff to the next page.
+@@ -126,6 +131,10 @@
+-   - the assessment evidence collected on this page;
+-   - the grade-appropriate register and the handoff to the next page.
 -5. `list_scenes` and verify every approved page persisted in the correct order.
 -6. Read the pages' narration actions. Call `generate_tts` on every page whose
 -   speech is new, changed or missing `audioId`. A planned or silent page is not
 -   finished.
++   - the assessment evidence collected in this segment;
++   - the grade-appropriate register and the handoff to the next segment.
 +4. Include ready-to-use teacher prompts, expected learner moves, and feedback
 +   language when the user asked for classroom-ready detail; otherwise keep the
 +   output at lesson-plan resolution.
 +5. Verify that every approved segment is present, ordered, and connected to the
 +   performance task. Do not claim that slides, media, audio, or files exist
-+   unless the user supplied them or the environment actually created them.
- 
++   unless the user supplied them or the environment actually created them. If
++   those capabilities are unavailable, offer the equivalent content inline in
++   chat and clearly identify anything the teacher must create or attach.
+@@ -133,2 +142,3 @@
 -Do not stop after presenting a plan. A turn ends only at an `ask_user` gate,
 -after a page has actually persisted, or when the whole stage passes the checks
--below.
-+## Existing-plan adaptation
- 
++Do not stop after merely presenting a sequence. A turn ends only while waiting
++for explicit teacher confirmation, after delivering the requested inline
++content for an approved segment, or once the complete lesson passes the checks
+@@ -137 +147 @@
 -## Existing-stage adaptation
-+When the teacher supplies an existing lesson or deck:
- 
++## Existing-plan adaptation
+@@ -139 +149 @@
 -When the current stage already has pages:
--
++When the teacher supplies an existing lesson or teaching materials:
+@@ -141 +151 @@
 -1. `list_scenes`, then `read_stage` the relevant pages before writing.
 +1. Read the relevant sections before writing.
- 2. Audit subject/stage wording, context continuity, learner product, evidence,
-    misconception handling, assessment alignment and narration.
+@@ -144 +154 @@
 -3. Repair only the pages that break the contract. Prioritize decorative
 +3. Repair only the segments that break the contract. Prioritize decorative
-    contexts, conclusions revealed before inquiry, no observable learner
-    product, activity/assessment mismatch, wrong school-stage difficulty,
-    literacy labels with no evidence, and exit tickets that collapse into recall.
+@@ -148,4 +158,4 @@
 -4. Use `patch_stage` for narrow edits and `edit_deck` for page-list changes.
 -   Regenerate a whole page only when the user explicitly wants a rewrite.
 -5. Re-run `generate_tts` after speech changes, then read back touched pages and
@@ -188,21 +170,15 @@
 +   only when its purpose or evidence path is unsalvageable or the user asks for
 +   a full rewrite.
 +5. Read back the touched sections and verify the final sequence.
- 
- ## Universal non-negotiables
- 
-@@ -171,13 +159,12 @@
- - the subject and school stage use the correct curriculum dimension wording;
- - one or two dimensions appear as learner actions and observable evidence;
- - the authentic context survives from opening through task to transfer;
+@@ -174 +184 @@
 -- every approved page exists, has content and sits in the right order;
 +- every approved learning segment exists, has content and sits in the right order;
- - learners acquire, process or compare evidence at least once;
- - learners produce at least one explanation, model, text, design, decision,
-   performance or other inspectable artifact;
- - the central misconception is handled by an activity or quiz;
- - assessment is isomorphic to the learning task and includes transfer;
+@@ -178 +188 @@
+-- the central misconception is handled by an activity or quiz;
++- the central misconception is handled by an activity or diagnostic check;
+@@ -180 +189,0 @@
 -- narration matches page content and every required speech line has audio;
- - no curriculum quote, textbook edition, source fact or external lookup result
-   was fabricated.
- 
+@@ -185 +194,2 @@
+-performance task that now makes them visible. Do not replay the whole page list.
++performance task that now makes them visible. Do not replay the whole sequence
++outline.
