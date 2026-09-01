@@ -112,6 +112,16 @@ If a visual, interactive, or file-producing capability is unavailable, provide
 the relevant evidence table, source comparison, or activity inline and state
 what the learner must do manually.
 
+## When the request is not research-driven
+
+If the request is timeless textbook knowledge with no external fact to verify
+— for example, a mathematics derivation, a classic text, or an established
+skill — say in one sentence that live research is unnecessary, then use an
+ordinary lesson-design workflow. Clarify the learner, outcome, prerequisites,
+sequence, practice, and checks for understanding without creating a search
+budget or claim ledger. Do not stage research theatre for a topic that needs no
+research.
+
 ## Naming and hard rules
 
 - Good: 「五年里成本降了多少？」「数据从哪里来」「两种口径差在哪」
